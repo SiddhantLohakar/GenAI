@@ -12,7 +12,7 @@ dotenv.config();
 async function indexing(){
 
 
-const PDF_PATH = './NodeJS.pdf';
+const PDF_PATH = './node.pdf';
 const pdfLoader = new PDFLoader(PDF_PATH);
 const rawDocs = await pdfLoader.load();
 
@@ -28,7 +28,7 @@ const chunkedDocs = await splitter.splitDocuments(rawDocs);
 // Initialized the embedding model
 const embeddings = new GoogleGenerativeAIEmbeddings({
     apiKey: process.env.GEMINI_API_KEY,
-    model: 'text-embedding-004',
+    model: 'gemini-embedding-001',
   });
 
 
@@ -42,6 +42,7 @@ try{
   await PineconeStore.fromDocuments(chunkedDocs, embeddings, {
     pineconeIndex,
     maxConcurrency: 5,
+    
   });
 }
 catch(err){
